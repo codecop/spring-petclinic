@@ -47,9 +47,6 @@ public interface VetRepository extends Repository<Vet, Integer> {
 
 	/**
 	 * Retrieve all <code>Vet</code>s from data store in Pages
-	 * @param pageable
-	 * @return
-	 * @throws DataAccessException
 	 */
 	@Transactional(readOnly = true)
 	@Cacheable("vets")

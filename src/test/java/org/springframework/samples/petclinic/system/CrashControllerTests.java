@@ -34,7 +34,7 @@ class CrashControllerTests {
 	CrashController testee = new CrashController();
 
 	@Test
-	void testTriggerException() throws Exception {
+	void testTriggerException() {
 		RuntimeException thrown = assertThrows(RuntimeException.class, () -> {
 			testee.triggerException();
 		});

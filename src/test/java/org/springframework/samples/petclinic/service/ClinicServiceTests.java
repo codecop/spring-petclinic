@@ -82,11 +82,11 @@ class ClinicServiceTests {
 
 	@Test
 	void shouldFindOwnersByLastName() {
-		Page<Owner> owners = this.owners.findByLastName("Davis", pageable);
-		assertThat(owners).hasSize(2);
+		Page<Owner> ownersPage = this.owners.findByLastName("Davis", pageable);
+		assertThat(ownersPage).hasSize(2);
 
-		owners = this.owners.findByLastName("Daviss", pageable);
-		assertThat(owners).isEmpty();
+		ownersPage = this.owners.findByLastName("Daviss", pageable);
+		assertThat(ownersPage).isEmpty();
 	}
 
 	@Test
@@ -101,8 +101,8 @@ class ClinicServiceTests {
 	@Test
 	@Transactional
 	void shouldInsertOwner() {
-		Page<Owner> owners = this.owners.findByLastName("Schultz", pageable);
-		int found = (int) owners.getTotalElements();
+		Page<Owner> ownersPage = this.owners.findByLastName("Schultz", pageable);
+		int found = (int) ownersPage.getTotalElements();
 
 		Owner owner = new Owner();
 		owner.setFirstName("Sam");
@@ -113,8 +113,8 @@ class ClinicServiceTests {
 		this.owners.save(owner);
 		assertThat(owner.getId().longValue()).isNotEqualTo(0);
 
-		owners = this.owners.findByLastName("Schultz", pageable);
-		assertThat(owners.getTotalElements()).isEqualTo(found + 1);
+		ownersPage = this.owners.findByLastName("Schultz", pageable);
+		assertThat(ownersPage.getTotalElements()).isEqualTo(found + 1);
 	}
 
 	@Test
@@ -167,7 +167,7 @@ class ClinicServiceTests {
 
 	@Test
 	@Transactional
-	void shouldUpdatePetName() throws Exception {
+	void shouldUpdatePetName() {
 		Owner owner6 = this.owners.findById(6);
 		Pet pet7 = owner6.getPet(7);
 		String oldName = pet7.getName();
@@ -183,9 +183,9 @@ class ClinicServiceTests {
 
 	@Test
 	void shouldFindVets() {
-		Collection<Vet> vets = this.vets.findAll();
+		Collection<Vet> allVets = this.vets.findAll();
 
-		Vet vet = EntityUtils.getById(vets, Vet.class, 3);
+		Vet vet = EntityUtils.getById(allVets, Vet.class, 3);
 		assertThat(vet.getLastName()).isEqualTo("Douglas");
 		assertThat(vet.getNrOfSpecialties()).isEqualTo(2);
 		assertThat(vet.getSpecialties().get(0).getName()).isEqualTo("dentistry");
@@ -212,7 +212,7 @@ class ClinicServiceTests {
 	}
 
 	@Test
-	void shouldFindVisitsByPetId() throws Exception {
+	void shouldFindVisitsByPetId() {
 		Owner owner6 = this.owners.findById(6);
 		Pet pet7 = owner6.getPet(7);
 		Collection<Visit> visits = pet7.getVisits();
